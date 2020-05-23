@@ -13,13 +13,13 @@ usage() {
 }
 
 # No USER variable available
-if [ "$USER" == "" ]; then
+if [ "$USER" = "" ]; then
 	echo "This script requires your github username stored in environment variable \$USER"
 	usage
 fi
 
 # No OAUTH_TOKEN variable available
-if [ "$OAUTH_TOKEN" == "" ]; then
+if [ "$OAUTH_TOKEN" = "" ]; then
 	echo "This script requires your OAUTH_TOKEN stored in environment variable \$OAUTH_TOKEN"
 	usage
 fi
@@ -54,32 +54,32 @@ while [ "$1" != "" ]; do
 done
 
 # If no reponame was supplied
-if [ "$REPONAME" == "" ]; then
+if [ "$REPONAME" = "" ]; then
 	echo "No repository name privided."
 	usage
 fi
 
 # Create project folder
 echo "Creating project folder $REPONAME ->"
-mkdir $REPONAME
-cd $REPONAME
-echo "---Done---\n============\n"
-
+mkdir "$REPONAME"
+cd "$REPONAME" || exit
+echo "---Done---
+============
+"
 # Create repo on github
 echo "Creating Github repository $REPONAME ->"
-curl --output /dev/null -# -H "Authorization: token $OAUTH_TOKEN" https://api.github.com/user/repos -d '{"name":"'$REPONAME'","private":'$PRIVATE'}'
+curl --output /dev/null -# -H "Authorization: token $OAUTH_TOKEN" https://api.github.com/user/repos -d "{\"name\":\"$REPONAME\",\"private\":$PRIVATE}"
 # echo "Authorization: token $OAUTH_TOKEN" https://api.github.com/user/repos -d '{"name":"'$REPONAME'","private":'$PRIVATE'}'
-echo "---Done---\n============\n"
+echo "---Done---
+============
+"
 
 # Create README.md
 echo "Creating README ->"
 echo "# $REPONAME" >>README.md
-echo "---Done---\n============\n"
-
-# Create .gitignore
-echo "Creating .gitginore ->"
-touch .gitignore
-echo "---Done---\n============\n"
+echo "---Done---
+============
+"
 
 # Intial commit and push to remote
 echo "Pushing to remote ->"
@@ -87,17 +87,20 @@ git init
 git add -A
 git commit -m "Initial commit"
 git remote rm origin
-git remote add origin https://github.com/$USER/$REPONAME.git
+git remote add origin https://github.com/"$USER"/"$REPONAME".git
 git push -u origin master
-echo "---Done---\n============\n"
+echo "---Done---
+============
+"
 
 # Open repo in broswer
-read -p "Open repo in browser? (y/n)  " answer_browser
+echo "Open repo in browser? (y/n)"
+read -r answer_browser
 
 case $answer_browser in
 y)
 	echo "Opening repo in browser."
-	open https://github.com/$USER/$REPONAME
+	open https://github.com/"$USER"/"$REPONAME"
 	;;
 n) ;;
 
@@ -105,4 +108,5 @@ n) ;;
 
 esac
 
-echo "---All done---\n"
+echo "---All done---
+"
