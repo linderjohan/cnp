@@ -1,7 +1,7 @@
-# Create new project
-Create a Github repository from your command line.
+# cnp - create new project
+Small shell script to create a Github repository from the command line.
 
-### Usage:
+## Usage:
 
 ```sh
 # Creates a new folder and public repository with the name <repository-name>
@@ -10,10 +10,11 @@ cnp <repository-name>
 # -p or --private flag creates a private repository
 cnp <repository-name> -p | --private 
 
-cnp -h | --help # Usage
+# Usage
+cnp -h | --help 
 ```
 
-### Installation: 
+## Installation: 
 
 1. Clone the repo.
 2. Install by moving "cnp.sh" to a folder in your PATH. Rename to "cnp".
